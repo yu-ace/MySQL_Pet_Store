@@ -6,7 +6,8 @@ import com.example.petsrore.model.Pet;
 import java.util.List;
 
 public class PetService {
-    List<Pet> petList = new PetDao().load();
+    PetDao petDao = new PetDao();
+    List<Pet> petList = petDao.load();
 
     public void newPet(int id,String name,int type,double price){
         Pet pet = new Pet();
@@ -16,7 +17,7 @@ public class PetService {
         pet.setStatus(0);
         pet.setPrice(price);
         petList.add(pet);
-        new PetDao().save(petList);
+        petDao.save(petList);
     }
 
     public List<Pet> getPetList() {

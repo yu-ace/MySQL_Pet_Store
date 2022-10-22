@@ -23,6 +23,9 @@ public class PetSroreApplication implements CommandLineRunner {
     }
 
     Scanner scanner = new Scanner(System.in);
+    PetService petService = new PetService();
+    ActService actService =new ActService();
+    OrderService orderService = new OrderService();
 
     @Override
     public void run(String... args) throws Exception {
@@ -30,13 +33,13 @@ public class PetSroreApplication implements CommandLineRunner {
             printHelp();
             String str = scanner.next();
             if("1".equals(str)){
-                List<Pet> petList = new PetService().getPetList();
+                List<Pet> petList =petService.getPetList();
                 for(Pet pet : petList){
                     System.out.println(pet.getId() + "\t" + pet.getName() + "\t" + pet.getType()
                             + "\t" + pet.getStatus() + "\t" + pet.getPrice());
                 }
             }else if("2".equals(str)){
-                List<Activity> activityList = new ActService().getActivityList();
+                List<Activity> activityList =actService.getActivityList();
                 for(Activity activity : activityList){
                     if(activity.getActStatus() == 0){
                         System.out.println(activity.getActId() + "\t" + activity.getActName() + "\t"
@@ -44,25 +47,25 @@ public class PetSroreApplication implements CommandLineRunner {
                     }
                 }
             }else if("3".equals(str)){
-                List<Pet> petList = new PetService().getPetList();
-                List<Activity> activityList = new ActService().getActivityList();
                 System.out.println("请输入你的id");
                 int id = scanner.nextInt();
                 System.out.println("请输入你的姓名");
                 String name = scanner.next();
                 System.out.println("请输入宠物的id");
                 int petId = scanner.nextInt();
+                List<Pet> petList =petService.getPetList();
                 for(Pet pet :petList){
                     if(pet.getId() == petId && pet.getStatus() == 0){
+                        List<Activity> activityList =actService.getActivityList();
                         for(Activity activity : activityList){
                             if(activity.getActStatus() == 0 &&activity.getActPetType() == pet.getType()){
                                 System.out.println("请支付：" + (pet.getPrice() * activity.getActRebate()));
                                 pet.setStatus(1);
-                                new OrderService().newOrder(id,name,petId,(pet.getPrice() * activity.getActRebate()));
+                                orderService.newOrder(id,name,petId,(pet.getPrice() * activity.getActRebate()));
                             }else if(activity.getActStatus() != 0 || activity.getActPetType() != pet.getType()){
                                 System.out.println("请支付：" + pet.getPrice());
                                 pet.setStatus(1);
-                                new OrderService().newOrder(id,name,petId,pet.getPrice());
+                                orderService.newOrder(id,name,petId,pet.getPrice());
                             }
                         }
                     }else if(pet.getId() == petId && pet.getStatus() == 1){
@@ -89,7 +92,7 @@ public class PetSroreApplication implements CommandLineRunner {
                 int type = scanner.nextInt();
                 System.out.println("请输入宠物价格");
                 double price = scanner.nextDouble();
-                new PetService().newPet(id,name,type,price);
+                petService.newPet(id,name,type,price);
             }else if("2".equals(str)){
                 System.out.println("请输入活动id");
                 int id = scanner.nextInt();
@@ -99,23 +102,23 @@ public class PetSroreApplication implements CommandLineRunner {
                 double rebate = scanner.nextDouble();
                 System.out.println("请输入活动宠物的种类");
                 int type = scanner.nextInt();
-                new ActService().newAct(id,name,rebate,type);
+                actService.newAct(id,name,rebate,type);
             }else if("3".equals(str)){
-                List<Order> orderList = new OrderService().getOrderList();
+                List<Order> orderList =orderService.getOrderList();
                 for(Order order : orderList){
                     System.out.println(order.getOrderId() + "\t" + order.getOrderName() + "\t" + order.getPetId()
                             + "\t" + order.getAmount());
                 }
             }else if("4".equals(str)){
-                double[] ave = new PetService().ave();
+                double[] ave =petService.ave();
                 System.out.println("猫的平均价格为：" + ave[0]);
                 System.out.println("狗的平均价格为：" + ave[1]);
             }else if("5".equals(str)){
-                Pet[] pets = new PetService().max();
+                Pet[] pets =petService.max();
                 System.out.println("猫的最高价是：" + pets[0].getPrice());
                 System.out.println("狗的最高价是：" + pets[1].getPrice());
             }else if("6".equals(str)){
-                Pet[] pets = new PetService().min();
+                Pet[] pets =petService.min();
                 System.out.println("猫的最低价是：" + pets[0].getPrice());
                 System.out.println("狗的最低价是：" + pets[1].getPrice());
             }else if("q".equals(str)){

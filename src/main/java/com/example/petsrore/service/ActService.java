@@ -6,7 +6,8 @@ import com.example.petsrore.model.Activity;
 import java.util.List;
 
 public class ActService {
-    List<Activity> activityList = new ActDao().load();
+    ActDao actDao = new ActDao();
+    List<Activity> activityList = actDao.load();
 
     public void newAct(int actId,String actName,double actRebate,int actPetType){
         Activity activity = new Activity();
@@ -16,7 +17,7 @@ public class ActService {
         activity.setActStatus(0);
         activity.setActPetType(actPetType);
         activityList.add(activity);
-        new ActDao().save(activityList);
+        actDao.save(activityList);
     }
 
     public List<Activity> getActivityList() {

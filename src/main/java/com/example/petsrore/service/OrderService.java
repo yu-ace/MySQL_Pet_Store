@@ -6,7 +6,8 @@ import com.example.petsrore.model.Order;
 import java.util.List;
 
 public class OrderService {
-    List<Order> orderList = new OrderDao().load();
+    OrderDao orderDao = new OrderDao();
+    List<Order> orderList = orderDao.load();
 
     public void newOrder(int orderId,String orderName,int petId,double amount){
         Order order = new Order();
@@ -15,7 +16,7 @@ public class OrderService {
         order.setPetId(petId);
         order.setAmount(amount);
         orderList.add(order);
-        new OrderDao().save(orderList);
+        orderDao.save(orderList);
     }
 
     public List<Order> getOrderList() {
