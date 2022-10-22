@@ -22,7 +22,7 @@ public class PetSroreApplication implements CommandLineRunner {
         SpringApplication.run(PetSroreApplication.class, args);
     }
 
-    static Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {
@@ -30,13 +30,13 @@ public class PetSroreApplication implements CommandLineRunner {
             printHelp();
             String str = scanner.next();
             if("1".equals(str)){
-                List<Pet> petList = PetService.getPetList();
+                List<Pet> petList = new PetService().getPetList();
                 for(Pet pet : petList){
                     System.out.println(pet.getId() + "\t" + pet.getName() + "\t" + pet.getType()
                             + "\t" + pet.getStatus() + "\t" + pet.getPrice());
                 }
             }else if("2".equals(str)){
-                List<Activity> activityList = ActService.getActivityList();
+                List<Activity> activityList = new ActService().getActivityList();
                 for(Activity activity : activityList){
                     if(activity.getActStatus() == 0){
                         System.out.println(activity.getActId() + "\t" + activity.getActName() + "\t"
@@ -44,8 +44,8 @@ public class PetSroreApplication implements CommandLineRunner {
                     }
                 }
             }else if("3".equals(str)){
-                List<Pet> petList = PetService.getPetList();
-                List<Activity> activityList = ActService.getActivityList();
+                List<Pet> petList = new PetService().getPetList();
+                List<Activity> activityList = new ActService().getActivityList();
                 System.out.println("请输入你的id");
                 int id = scanner.nextInt();
                 System.out.println("请输入你的姓名");
@@ -58,11 +58,11 @@ public class PetSroreApplication implements CommandLineRunner {
                             if(activity.getActStatus() == 0 &&activity.getActPetType() == pet.getType()){
                                 System.out.println("请支付：" + (pet.getPrice() * activity.getActRebate()));
                                 pet.setStatus(1);
-                                OrderService.newOrder(id,name,petId,(pet.getPrice() * activity.getActRebate()));
+                                new OrderService().newOrder(id,name,petId,(pet.getPrice() * activity.getActRebate()));
                             }else if(activity.getActStatus() != 0 || activity.getActPetType() != pet.getType()){
                                 System.out.println("请支付：" + pet.getPrice());
                                 pet.setStatus(1);
-                                OrderService.newOrder(id,name,petId,pet.getPrice());
+                                new OrderService().newOrder(id,name,petId,pet.getPrice());
                             }
                         }
                     }else if(pet.getId() == petId && pet.getStatus() == 1){
@@ -76,7 +76,7 @@ public class PetSroreApplication implements CommandLineRunner {
     }
 
 
-    public static void admin(){
+    public void admin(){
         while (true){
             adminHelp();
             String str = scanner.next();
@@ -89,7 +89,7 @@ public class PetSroreApplication implements CommandLineRunner {
                 int type = scanner.nextInt();
                 System.out.println("请输入宠物价格");
                 double price = scanner.nextDouble();
-                PetService.newPet(id,name,type,price);
+                new PetService().newPet(id,name,type,price);
             }else if("2".equals(str)){
                 System.out.println("请输入活动id");
                 int id = scanner.nextInt();
@@ -99,23 +99,23 @@ public class PetSroreApplication implements CommandLineRunner {
                 double rebate = scanner.nextDouble();
                 System.out.println("请输入活动宠物的种类");
                 int type = scanner.nextInt();
-                ActService.newAct(id,name,rebate,type);
+                new ActService().newAct(id,name,rebate,type);
             }else if("3".equals(str)){
-                List<Order> orderList = OrderService.getOrderList();
+                List<Order> orderList = new OrderService().getOrderList();
                 for(Order order : orderList){
                     System.out.println(order.getOrderId() + "\t" + order.getOrderName() + "\t" + order.getPetId()
                             + "\t" + order.getAmount());
                 }
             }else if("4".equals(str)){
-                double[] ave = PetService.ave();
+                double[] ave = new PetService().ave();
                 System.out.println("猫的平均价格为：" + ave[0]);
                 System.out.println("狗的平均价格为：" + ave[1]);
             }else if("5".equals(str)){
-                Pet[] pets = PetService.max();
+                Pet[] pets = new PetService().max();
                 System.out.println("猫的最高价是：" + pets[0].getPrice());
                 System.out.println("狗的最高价是：" + pets[1].getPrice());
             }else if("6".equals(str)){
-                Pet[] pets = PetService.min();
+                Pet[] pets = new PetService().min();
                 System.out.println("猫的最低价是：" + pets[0].getPrice());
                 System.out.println("狗的最低价是：" + pets[1].getPrice());
             }else if("q".equals(str)){
@@ -124,7 +124,7 @@ public class PetSroreApplication implements CommandLineRunner {
         }
     }
 
-    public static void adminHelp(){
+    public void adminHelp(){
         System.out.println("欢迎来到宠物系统");
         System.out.println("输入1 上架宠物");
         System.out.println("输入2 上架活动");
@@ -135,7 +135,7 @@ public class PetSroreApplication implements CommandLineRunner {
         System.out.println("输入q 退出");
     }
 
-    public static void printHelp(){
+    public void printHelp(){
         System.out.println("欢迎来到宠物商店");
         System.out.println("输入1 查看当前宠物列表");
         System.out.println("输入2 查看当前活动信息");

@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActDao {
-    public static void save(List<Activity> activityList){
+    public void save(List<Activity> activityList){
         String str = JSONUtil.toJsonStr(activityList);
         FileWriter fileWriter = new FileWriter(FileUtil.getUserHomePath() + "/ptt/activity.dat");
         fileWriter.write(str);
     }
 
-    public static List<Activity> load(){
+    public List<Activity> load(){
         try{
             FileReader fileReader = new FileReader(FileUtil.getUserHomePath() + "/ptt/activity.dat");
             String str = fileReader.readString();

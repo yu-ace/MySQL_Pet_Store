@@ -6,19 +6,19 @@ import com.example.petsrore.model.Order;
 import java.util.List;
 
 public class OrderService {
-    static List<Order> orderList = OrderDao.load();
+    List<Order> orderList = new OrderDao().load();
 
-    public static void newOrder(int orderId,String orderName,int petId,double amount){
+    public void newOrder(int orderId,String orderName,int petId,double amount){
         Order order = new Order();
         order.setOrderId(orderId);
         order.setOrderName(orderName);
         order.setPetId(petId);
         order.setAmount(amount);
         orderList.add(order);
-        OrderDao.save(orderList);
+        new OrderDao().save(orderList);
     }
 
-    public static List<Order> getOrderList() {
+    public List<Order> getOrderList() {
         return orderList;
     }
 }

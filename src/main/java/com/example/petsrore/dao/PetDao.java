@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PetDao {
-    public static void save(List<Pet> petList){
+    public void save(List<Pet> petList){
         String str = JSONUtil.toJsonStr(petList);
         FileWriter fileWriter = new FileWriter(FileUtil.getUserHomePath() + "/ptt/pet.dat");
         fileWriter.write(str);
     }
 
-    public static List<Pet> load(){
+    public List<Pet> load(){
         try{
             FileReader fileReader = new FileReader(FileUtil.getUserHomePath() + "/ptt/pet.dat");
             String str = fileReader.readString();

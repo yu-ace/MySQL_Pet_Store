@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao {
-    public static void save(List<Order> orderList){
+    public void save(List<Order> orderList){
         String str = JSONUtil.toJsonStr(orderList);
         FileWriter fileWriter = new FileWriter(FileUtil.getUserHomePath() + "/ptt/order.dat");
         fileWriter.write(str);
     }
 
-    public static List<Order> load(){
+    public List<Order> load(){
         try{
             FileReader fileReader = new FileReader(FileUtil.getUserHomePath() + "/ptt/order.dat");
             String str = fileReader.readString();
