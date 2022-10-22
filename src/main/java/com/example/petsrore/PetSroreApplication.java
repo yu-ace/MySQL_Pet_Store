@@ -59,15 +59,13 @@ public class PetSroreApplication implements CommandLineRunner {
                     if(pet.getId() == petId && pet.getStatus() == 0){
                         for(Activity activity : activityList){
                             if(activity.getActPetType() == pet.getType() && activity.getActStatus() ==0){
-                                double amount = orderService.actAmount(pet.getPrice(),activity.getActRebate());
-                                System.out.println("请支付：" + amount);
-                                pet.setStatus(1);
-                                orderService.newOrder(id,name,petId,amount);
+                                System.out.println("请支付：" + orderService.actAmount(petId));
+                                orderService.newOrder(id,name,petId,orderService.actAmount(petId));
+                                petService.changeStatus(petId,1);
                             }else if(activity.getActPetType() != pet.getType() || activity.getActStatus() !=0){
-                                double amount = pet.getPrice();
-                                System.out.println("请支付：" + amount);
-                                pet.setStatus(1);
-                                orderService.newOrder(id,name,petId,amount);
+                                System.out.println("请支付：" + orderService.amount(petId));
+                                orderService.newOrder(id,name,petId,orderService.amount(petId));
+                                petService.changeStatus(petId,1);
                             }
                         }
                     }else if(pet.getId() == petId && pet.getStatus() != 0){

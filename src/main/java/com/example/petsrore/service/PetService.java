@@ -83,4 +83,13 @@ public class PetService {
         return pets;
     }
 
+    public void changeStatus(int petId,int status){
+        for(Pet pet : petList){
+            if(pet.getId() == petId){
+                pet.setStatus(status);
+            }
+        }
+        petDao.save(petList);
+    }
+
 }
