@@ -24,7 +24,7 @@ public class PetSroreApplication implements CommandLineRunner {
 
     Scanner scanner = new Scanner(System.in);
     PetService petService = new PetService();
-    ActService actService =new ActService();
+    ActService actService = new ActService();
     OrderService orderService = new OrderService();
 
     @Override
@@ -53,23 +53,23 @@ public class PetSroreApplication implements CommandLineRunner {
                 String name = scanner.next();
                 System.out.println("请输入宠物的id");
                 int petId = scanner.nextInt();
-                List<Pet> petList =petService.getPetList();
-                for(Pet pet :petList){
+                List<Pet> petList = petService.getPetList();
+                List<Activity> activityList = actService.getActivityList();
+                for(Pet pet : petList){
                     if(pet.getId() == petId && pet.getStatus() == 0){
-                        List<Activity> activityList =actService.getActivityList();
                         for(Activity activity : activityList){
-                            if(activity.getActStatus() == 0 &&activity.getActPetType() == pet.getType()){
-                                System.out.println("请支付：" + (pet.getPrice() * activity.getActRebate()));
-                                pet.setStatus(1);
-                                orderService.newOrder(id,name,petId,(pet.getPrice() * activity.getActRebate()));
-                            }else if(activity.getActStatus() != 0 || activity.getActPetType() != pet.getType()){
-                                System.out.println("请支付：" + pet.getPrice());
-                                pet.setStatus(1);
-                                orderService.newOrder(id,name,petId,pet.getPrice());
+                            if(activity.getActPetType() == pet.getType() && activity.getActStatus() ==0){
+                                double amount = orderService.actAmount(petId);
+                                System.out.println("请支付：" + amount);
+                                orderService.newOrder(id,name,petId,amount);
+                            }else if(activity.getActPetType() != pet.getType() || activity.getActStatus() !=0){
+                                double amount = orderService.amount(petId);
+                                System.out.println("请支付：" + amount);
+                                orderService.newOrder(id,name,petId,amount);
                             }
                         }
-                    }else if(pet.getId() == petId && pet.getStatus() == 1){
-                        System.out.println("对不起，你下单的宠物已经下架");
+                    }else if(pet.getId() == petId && pet.getStatus() != 0){
+                        System.out.println("对不起，该宠物已下架");
                     }
                 }
             }else if("s".equals(str)){
