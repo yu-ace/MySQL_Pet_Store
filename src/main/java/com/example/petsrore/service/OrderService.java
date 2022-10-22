@@ -18,30 +18,14 @@ public class OrderService {
         return orderService;
     }
 
-    public void newOrder(int orderId,String orderName,int petId,double amount){
+    public void newOrder(int orderId,String orderName,int petId){
         Order order = new Order();
         order.setOrderId(orderId);
         order.setOrderName(orderName);
         order.setPetId(petId);
-        order.setAmount(amount);
+        order.setAmount(amount(petId));
         orderList.add(order);
         orderDao.save(orderList);
-    }
-
-    public double actAmount(int petId){
-        double amount = 0;
-        List<Pet> petList = PetService.getInstance().petList;
-        List<Activity> activityList = ActService.getInstance().activityList;
-        for(Pet pet : petList){
-            if(pet.getId() == petId && pet.getStatus() == 0){
-                for(Activity activity : activityList){
-                    if(activity.getActPetType() == pet.getType() && activity.getActStatus() ==0){
-                        amount = pet.getPrice() * activity.getActRebate();
-                    }
-                }
-            }
-        }
-        return amount;
     }
 
     public double amount(int petId){
@@ -51,7 +35,9 @@ public class OrderService {
         for(Pet pet : petList){
             if(pet.getId() == petId && pet.getStatus() == 0){
                 for(Activity activity : activityList){
-                    if(activity.getActPetType() != pet.getType() || activity.getActStatus() !=0){
+                    if(activity.getActPetType() == pet.getType() && activity.getActStatus() ==0){
+                        amount = pet.getPrice() * activity.getActRebate();
+                    }else if(activity.getActPetType() != pet.getType() || activity.getActStatus() !=0){
                         amount = pet.getPrice();
                     }
                 }
@@ -59,6 +45,8 @@ public class OrderService {
         }
         return amount;
     }
+
+
 
     public List<Order> getOrderList() {
         return orderList;
