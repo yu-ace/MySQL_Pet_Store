@@ -9,6 +9,14 @@ public class PetService {
     PetDao petDao = new PetDao();
     List<Pet> petList = petDao.load();
 
+    static PetService petService = new PetService();
+    private PetService(){
+    }
+
+    public static PetService getInstance(){
+        return petService;
+    }
+
     public void newPet(int id,String name,int type,double price){
         Pet pet = new Pet();
         pet.setId(id);

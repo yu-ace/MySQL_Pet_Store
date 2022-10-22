@@ -23,9 +23,9 @@ public class PetSroreApplication implements CommandLineRunner {
     }
 
     Scanner scanner = new Scanner(System.in);
-    PetService petService = new PetService();
-    ActService actService = new ActService();
-    OrderService orderService = new OrderService();
+    PetService petService = PetService.getInstance();
+    ActService actService = ActService.getInstance();
+    OrderService orderService = OrderService.getInstance();
 
     @Override
     public void run(String... args) throws Exception {

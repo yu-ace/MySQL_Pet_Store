@@ -9,6 +9,14 @@ public class ActService {
     ActDao actDao = new ActDao();
     List<Activity> activityList = actDao.load();
 
+    static ActService actService = new ActService();
+    private ActService(){
+    }
+
+    public static ActService getInstance(){
+        return actService;
+    }
+
     public void newAct(int actId,String actName,double actRebate,int actPetType){
         Activity activity = new Activity();
         activity.setActId(actId);
