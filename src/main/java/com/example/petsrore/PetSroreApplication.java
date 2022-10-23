@@ -23,12 +23,12 @@ public class PetSroreApplication implements CommandLineRunner {
     }
 
     Scanner scanner = new Scanner(System.in);
-    PetService petService = PetService.getInstance();
-    ActService actService = ActService.getInstance();
-    OrderService orderService = OrderService.getInstance();
-    List<Pet> petList = PetService.getInstance().getPetList();
-    List<Activity> activityList = ActService.getInstance().getActivityList();
-    List<Order> orderList =OrderService.getInstance().getOrderList();
+    private PetService petService = PetService.getInstance();
+    private ActService actService = ActService.getInstance();
+    private OrderService orderService = OrderService.getInstance();
+    private List<Pet> petList = PetService.getInstance().getPetList();
+    private List<Activity> activityList = ActService.getInstance().getActivityList();
+    private List<Order> orderList =OrderService.getInstance().getOrderList();
 
     @Override
     public void run(String... args) throws Exception {
