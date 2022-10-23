@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class PetSroreApplication implements CommandLineRunner {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
     private IPetService petService = PetService.getInstance();
     private IActService actService = ActService.getInstance();
     private IOrderService orderService = OrderService.getInstance();
@@ -30,7 +30,6 @@ public class PetSroreApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-
         while (true) {
             printHelp();
             String str = scanner.next();

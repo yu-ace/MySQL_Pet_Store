@@ -1,10 +1,10 @@
 package com.example.petsrore.model;
 
 public class Order {
-    int orderId;
-    String orderName;
-    int petId;
-    double amount;
+    private int orderId;
+    private String orderName;
+    private int petId;
+    private double amount;
 
     public int getOrderId() {
         return orderId;

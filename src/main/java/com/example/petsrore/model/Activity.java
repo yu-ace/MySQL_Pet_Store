@@ -1,20 +1,20 @@
 package com.example.petsrore.model;
 
 public class Activity {
-    int actId;
-    String actName;
-    double actRebate;
+    private int actId;
+    private String actName;
+    private double actRebate;
     /**
      * 0猫
      * 1狗
      * 2所有
      */
-    int actPetType;
+    private int actPetType;
     /**
      * 0开启
      * 1关闭
      */
-    int actStatus;
+    private int actStatus;
 
     public int getActId() {
         return actId;

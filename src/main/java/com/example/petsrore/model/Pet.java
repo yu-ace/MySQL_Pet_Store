@@ -1,19 +1,19 @@
 package com.example.petsrore.model;
 
 public class Pet {
-    int id;
-    String name;
+    private int id;
+    private String name;
     /**
      * 0猫
      * 1狗
      */
-    int type;
-    double price;
+    private int type;
+    private double price;
     /**
      * 0待售
      * 1售罄
      */
-    int status;
+    private int status;
 
     public int getId() {
         return id;
