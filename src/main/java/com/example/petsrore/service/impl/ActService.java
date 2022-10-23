@@ -1,23 +1,24 @@
-package com.example.petsrore.service;
+package com.example.petsrore.service.impl;
 
 import com.example.petsrore.dao.ActDao;
 import com.example.petsrore.model.Activity;
 
 import java.util.List;
 
-public class ActService {
+public class ActService implements com.example.petsrore.service.IActService {
+    static ActService actService = new ActService();
     ActDao actDao = new ActDao();
     List<Activity> activityList = actDao.load();
 
-    static ActService actService = new ActService();
-    private ActService(){
+    private ActService() {
     }
 
-    public static ActService getInstance(){
+    public static ActService getInstance() {
         return actService;
     }
 
-    public void newAct(int actId,String actName,double actRebate,int actPetType){
+    @Override
+    public void newAct(int actId, String actName, double actRebate, int actPetType) {
         Activity activity = new Activity();
         activity.setActId(actId);
         activity.setActName(actName);
@@ -28,6 +29,7 @@ public class ActService {
         actDao.save(activityList);
     }
 
+    @Override
     public List<Activity> getActivityList() {
         return activityList;
     }

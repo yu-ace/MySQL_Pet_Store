@@ -5,12 +5,13 @@ import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.io.file.FileWriter;
 import cn.hutool.json.JSONUtil;
 import com.example.petsrore.model.Activity;
-import com.example.petsrore.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActDao {
+
+
     public void save(List<Activity> activityList){
         String str = JSONUtil.toJsonStr(activityList);
         FileWriter fileWriter = new FileWriter(FileUtil.getUserHomePath() + "/ptt/activity.dat");

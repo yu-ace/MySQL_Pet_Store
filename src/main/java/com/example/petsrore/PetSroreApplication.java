@@ -1,50 +1,49 @@
 package com.example.petsrore;
 
-import com.example.petsrore.dao.PetDao;
 import com.example.petsrore.model.Activity;
 import com.example.petsrore.model.Order;
 import com.example.petsrore.model.Pet;
-import com.example.petsrore.service.ActService;
-import com.example.petsrore.service.OrderService;
-import com.example.petsrore.service.PetService;
+import com.example.petsrore.service.IActService;
+import com.example.petsrore.service.IOrderService;
+import com.example.petsrore.service.IPetService;
+import com.example.petsrore.service.impl.ActService;
+import com.example.petsrore.service.impl.OrderService;
+import com.example.petsrore.service.impl.PetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration;
 
-import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
 public class PetSroreApplication implements CommandLineRunner {
+    Scanner scanner = new Scanner(System.in);
+    private IPetService petService = PetService.getInstance();
+    private IActService actService = ActService.getInstance();
+    private IOrderService orderService = OrderService.getInstance();
+
 
     public static void main(String[] args) {
         SpringApplication.run(PetSroreApplication.class, args);
     }
 
-    Scanner scanner = new Scanner(System.in);
-    private PetService petService = PetService.getInstance();
-    private ActService actService = ActService.getInstance();
-    private OrderService orderService = OrderService.getInstance();
-    private List<Pet> petList = PetService.getInstance().getPetList();
-    private List<Activity> activityList = ActService.getInstance().getActivityList();
-    private List<Order> orderList =OrderService.getInstance().getOrderList();
-
     @Override
     public void run(String... args) throws Exception {
-        while(true){
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        while (true) {
             printHelp();
             String str = scanner.next();
-            if("1".equals(str)){
-                for(Pet pet : petList){
+            if ("1".equals(str)) {
+                for (Pet pet : petService.getPetList()) {
                     System.out.println(pet.getId() + "\t" + pet.getName() + "\t" + pet.getType()
                             + "\t" + pet.getStatus() + "\t" + pet.getPrice());
                 }
-            }else if("2".equals(str)){
-                for(Activity activity : activityList){
-                    if(activity.getActStatus() == 0){
+            } else if ("2".equals(str)) {
+                for (Activity activity : actService.getActivityList()) {
+                    if (activity.getActStatus() == 0) {
                         System.out.println(activity.getActId() + "\t" + activity.getActName() + "\t"
-                                + activity.getActPetType() +"\t" + activity.getActRebate());
+                                + activity.getActPetType() + "\t" + activity.getActRebate());
                     }
                 }
             }else if("3".equals(str)){
@@ -54,17 +53,17 @@ public class PetSroreApplication implements CommandLineRunner {
                 String name = scanner.next();
                 System.out.println("请输入宠物的id");
                 int petId = scanner.nextInt();
-                for(Pet pet : petList){
-                    if(pet.getId() == petId && pet.getStatus() == 0){
-                        for(Activity activity : activityList){
-                            if(activity.getActPetType() == pet.getType() && activity.getActStatus() ==0){
+                for (Pet pet : petService.getPetList()) {
+                    if (pet.getId() == petId && pet.getStatus() == 0) {
+                        for (Activity activity : actService.getActivityList()) {
+                            if (activity.getActPetType() == pet.getType() && activity.getActStatus() == 0) {
                                 System.out.println("请支付：" + orderService.amount(petId));
-                                orderService.newOrder(id,name,petId);
-                                petService.changeStatus(petId,1);
-                            }else if(activity.getActPetType() != pet.getType() || activity.getActStatus() !=0){
+                                orderService.newOrder(id, name, petId);
+                                petService.changeStatus(petId, 1);
+                            } else if (activity.getActPetType() != pet.getType() || activity.getActStatus() != 0) {
                                 System.out.println("请支付：" + orderService.amount(petId));
-                                orderService.newOrder(id,name,petId);
-                                petService.changeStatus(petId,1);
+                                orderService.newOrder(id, name, petId);
+                                petService.changeStatus(petId, 1);
                             }
                         }
                     }else if(pet.getId() == petId && pet.getStatus() != 0){
@@ -103,7 +102,7 @@ public class PetSroreApplication implements CommandLineRunner {
                 int type = scanner.nextInt();
                 ActService.getInstance().newAct(id,name,rebate,type);
             }else if("3".equals(str)){
-                for(Order order : orderList){
+                for (Order order : orderService.getOrderList()) {
                     System.out.println(order.getOrderId() + "\t" + order.getOrderName() + "\t" + order.getPetId()
                             + "\t" + order.getAmount());
                 }
