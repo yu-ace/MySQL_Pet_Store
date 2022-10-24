@@ -20,7 +20,7 @@ public class ActService implements com.example.petsrore.service.IActService {
     }
 
     @Override
-    public void newAct(int actId, String actName, double actRebate, int actPetType) {
+    public void newAct(String actName, double actRebate, int actPetType) {
         try {
             String tmp = "INSERT INTO activity (name,rebate,type) value ('%s',%.2f,%d);";
             String sqlStr = String.format(tmp,actName,actRebate,actPetType);
@@ -33,6 +33,7 @@ public class ActService implements com.example.petsrore.service.IActService {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public List<Activity> getActivityList() {
@@ -47,7 +48,7 @@ public class ActService implements com.example.petsrore.service.IActService {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 double rebate = resultSet.getDouble("rebate");
-                int type = resultSet.getInt("typed");
+                int type = resultSet.getInt("pet_type");
                 int status = resultSet.getInt("status");
                 Activity activity = new Activity();
                 activity.setActId(id);
@@ -55,6 +56,7 @@ public class ActService implements com.example.petsrore.service.IActService {
                 activity.setActRebate(rebate);
                 activity.setActPetType(type);
                 activity.setActStatus(status);
+                activityList.add(activity);
             }
             connection.close();
         } catch (Exception e) {

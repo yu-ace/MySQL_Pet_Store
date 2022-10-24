@@ -5,7 +5,7 @@ import com.example.petsrore.model.Pet;
 import java.util.List;
 
 public interface IPetService {
-    void newPet(int id, String name, int type, double price);
+    void newPet(String name, int type, double price);
 
     List<Pet> getPetList();
 

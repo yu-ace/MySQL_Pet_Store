@@ -17,7 +17,7 @@ public class PetService implements IPetService {
         return petService;
     }
 
-    public void newPet(int id, String name, int type, double price) {
+    public void newPet(String name, int type, double price) {
         try {
             String tmp = "INSERT INTO pet (name,type,price) value ('%s',%d,%.2f);";
             String sqlStr = String.format(tmp, name, type, price);

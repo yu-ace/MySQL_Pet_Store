@@ -23,9 +23,9 @@ public class OrderService implements com.example.petsrore.service.IOrderService 
     }
 
     @Override
-    public void newOrder(int orderId, String orderName, int petId) {
+    public void newOrder(String orderName, int petId) {
         try {
-            String tmp = "INSERT INTO order (name,rebate,type) value ('%s',%d);";
+            String tmp = "INSERT INTO order (name,id) value ('%s',%d);";
             String sqlStr = String.format(tmp,orderName,petId);
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");
