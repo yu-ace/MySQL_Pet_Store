@@ -69,6 +69,10 @@ public class PetSroreApplication implements CommandLineRunner {
                 }
             }else if("s".equals(str)){
                 admin();
+            }else if("4".equals(str)) {
+                System.out.println("请输入宠物的id");
+                int petId = scanner.nextInt();
+                petService.changeStatus(petId, 0);
             }
         }
     }

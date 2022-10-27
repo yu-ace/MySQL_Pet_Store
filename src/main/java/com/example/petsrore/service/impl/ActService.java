@@ -22,7 +22,7 @@ public class ActService implements com.example.petsrore.service.IActService {
     @Override
     public void newAct(String actName, double actRebate, int actPetType) {
         try {
-            String tmp = "INSERT INTO activity (name,rebate,type) value ('%s',%.2f,%d);";
+            String tmp = "INSERT INTO activity (name,rebate,pet_type) value ('%s',%.2f,%d);";
             String sqlStr = String.format(tmp,actName,actRebate,actPetType);
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");

@@ -63,15 +63,15 @@ public class PetService implements IPetService {
     public double[] ave() {
         double[] res = new double[2];
         try {
-            String sqlStr = "SELECT type,avg(prive) FROM pet group by type order by type;";
+            String sqlStr = "SELECT type,avg(price) FROM pet group by type order by type;";
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            res[0] = resultSet.getDouble("a");
+            res[0] = resultSet.getDouble(2);
             resultSet.next();
-            res[1] = resultSet.getDouble("a");
+            res[1] = resultSet.getDouble(2);
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,22 +144,18 @@ public class PetService implements IPetService {
     }
 
     public void changeStatus(int petId, int status) {
-        String tmp = "UPDATE pet SET status = %d WHERE petId = %d";
-        for(Pet pet : petService.getPetList()){
-            try {
-                String sqlStr = String.format(tmp,petId,status);
-                Connection connection =DriverManager
-                        .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    pet.setStatus(status);
-                }
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        String tmp = "UPDATE pet SET status = %d WHERE id = %d";
+        try {
+            String sqlStr = String.format(tmp,status,petId);
+            Connection connection =DriverManager
+                    .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
+            preparedStatement.execute();
+            connection.close();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
 }
