@@ -4,6 +4,7 @@ import com.example.petsrore.model.Activity;
 import com.example.petsrore.model.Order;
 import com.example.petsrore.model.Pet;
 import com.example.petsrore.service.IActService;
+import com.example.petsrore.service.IOrderService;
 import com.example.petsrore.service.IPetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderService implements com.example.petsrore.service.IOrderService {
+public class OrderService implements IOrderService {
     @Autowired
     private IPetService petService;
     @Autowired

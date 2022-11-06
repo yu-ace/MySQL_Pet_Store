@@ -1,6 +1,7 @@
 package com.example.petsrore.service.impl;
 
 import com.example.petsrore.model.Activity;
+import com.example.petsrore.service.IActService;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ActService implements com.example.petsrore.service.IActService {
+public class ActService implements IActService {
 
     @Override
     public void newAct(String actName, double actRebate, int actPetType) {
