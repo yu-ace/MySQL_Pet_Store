@@ -2,20 +2,14 @@ package com.example.petsrore.service.impl;
 
 import com.example.petsrore.model.Pet;
 import com.example.petsrore.service.IPetService;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PetService implements IPetService {
-    private static PetService petService = new PetService();
-
-    private PetService() {
-    }
-
-    public static PetService getInstance() {
-        return petService;
-    }
 
     public void newPet(String name, int type, double price) {
         try {

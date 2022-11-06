@@ -6,9 +6,9 @@ import com.example.petsrore.model.Pet;
 import com.example.petsrore.service.IActService;
 import com.example.petsrore.service.IOrderService;
 import com.example.petsrore.service.IPetService;
-import com.example.petsrore.service.impl.ActService;
-import com.example.petsrore.service.impl.OrderService;
-import com.example.petsrore.service.impl.PetService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,15 +16,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Scanner;
 
 @SpringBootApplication
-public class PetSroreApplication implements CommandLineRunner {
+public class PetStoreApplication implements CommandLineRunner {
     private Scanner scanner = new Scanner(System.in);
-    private IPetService petService = PetService.getInstance();
-    private IActService actService = ActService.getInstance();
-    private IOrderService orderService = OrderService.getInstance();
+    @Autowired
+    private IPetService petService;
+    @Autowired
+    private IActService actService;
+    @Autowired
+    private IOrderService orderService;
+    Logger logger = LoggerFactory.getLogger(PetStoreApplication.class);
 
 
     public static void main(String[] args) {
-        SpringApplication.run(PetSroreApplication.class, args);
+        SpringApplication.run(PetStoreApplication.class, args);
     }
 
     @Override
@@ -35,6 +39,8 @@ public class PetSroreApplication implements CommandLineRunner {
             String str = scanner.next();
             if ("1".equals(str)) {
                 for (Pet pet : petService.getPetList()) {
+                    logger.info(pet.getId() + "\t" + pet.getName() + "\t" + pet.getType()
+                            + "\t" + pet.getStatus() + "\t" + pet.getPrice());
                     System.out.println(pet.getId() + "\t" + pet.getName() + "\t" + pet.getType()
                             + "\t" + pet.getStatus() + "\t" + pet.getPrice());
                 }
@@ -89,7 +95,7 @@ public class PetSroreApplication implements CommandLineRunner {
                 int type = scanner.nextInt();
                 System.out.println("请输入宠物价格");
                 double price = scanner.nextDouble();
-                PetService.getInstance().newPet(name,type,price);
+                petService.newPet(name,type,price);
             }else if("2".equals(str)){
                 System.out.println("请输入活动名字");
                 String name = scanner.next();
@@ -97,7 +103,7 @@ public class PetSroreApplication implements CommandLineRunner {
                 double rebate = scanner.nextDouble();
                 System.out.println("请输入活动宠物的种类");
                 int type = scanner.nextInt();
-                ActService.getInstance().newAct(name,rebate,type);
+                actService.newAct(name,rebate,type);
             }else if("3".equals(str)){
                 for (Order order : orderService.getOrderList()) {
                     System.out.println(order.getOrderId() + "\t" + order.getOrderName() + "\t" + order.getPetId()

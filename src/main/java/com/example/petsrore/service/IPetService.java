@@ -1,9 +1,11 @@
 package com.example.petsrore.service;
 
 import com.example.petsrore.model.Pet;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface IPetService {
     void newPet(String name, int type, double price);
 

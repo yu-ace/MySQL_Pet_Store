@@ -1,5 +1,8 @@
 package com.example.petsrore.model;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Pet {
     private int id;
     private String name;

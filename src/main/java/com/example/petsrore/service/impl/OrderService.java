@@ -3,7 +3,10 @@ package com.example.petsrore.service.impl;
 import com.example.petsrore.model.Activity;
 import com.example.petsrore.model.Order;
 import com.example.petsrore.model.Pet;
+import com.example.petsrore.service.IActService;
 import com.example.petsrore.service.IPetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,15 +15,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class OrderService implements com.example.petsrore.service.IOrderService {
-    private IPetService petService = PetService.getInstance();
-    private static OrderService orderService = new OrderService();
-    private OrderService() {
-    }
-
-    public static OrderService getInstance() {
-        return orderService;
-    }
+    @Autowired
+    private IPetService petService;
+    @Autowired
+    private IActService actService;
 
     @Override
     public void newOrder(String orderName, int petId) {
@@ -41,7 +41,7 @@ public class OrderService implements com.example.petsrore.service.IOrderService 
     public double amount(int petId){
         double amount = 0;
         List<Pet> petList = petService.getPetList();
-        List<Activity> activityList = ActService.getInstance().getActivityList();
+        List<Activity> activityList = actService.getActivityList();
         for(Pet pet : petList){
             if(pet.getId() == petId && pet.getStatus() == 0){
                 for(Activity activity : activityList){
@@ -61,7 +61,7 @@ public class OrderService implements com.example.petsrore.service.IOrderService 
     public List<Order> getOrderList() {
         List<Order> orderList = new ArrayList<>();
         try {
-            String sqlStr = "SELECT * FROM order;";
+            String sqlStr = "SELECT * FROM `order`;";
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://192.168.50.252:3306/pet_store", "root", "123456");
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
@@ -69,13 +69,14 @@ public class OrderService implements com.example.petsrore.service.IOrderService 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                int petId = resultSet.getInt("petId");
+                int petId = resultSet.getInt("pet_id");
                 double amount = resultSet.getDouble("amount");
                 Order order = new Order();
                 order.setOrderId(id);
                 order.setOrderName(name);
                 order.setPetId(petId);
                 order.setAmount(amount);
+                orderList.add(order);
             }
             connection.close();
         } catch (Exception e) {

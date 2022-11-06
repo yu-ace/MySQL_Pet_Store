@@ -1,6 +1,7 @@
 package com.example.petsrore.service.impl;
 
 import com.example.petsrore.model.Activity;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,15 +10,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ActService implements com.example.petsrore.service.IActService {
-    private static ActService actService = new ActService();
-
-    private ActService() {
-    }
-
-    public static ActService getInstance() {
-        return actService;
-    }
 
     @Override
     public void newAct(String actName, double actRebate, int actPetType) {
